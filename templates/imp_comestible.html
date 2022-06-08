@@ -15,6 +15,10 @@
   <link rel="stylesheet" href="estilos/estilos.css">
   <title>Inicio</title>
   <style>
+    h1 {
+      text-align: center;
+    }
+
     .seccion1 {
       display: flex;
       justify-content: center;
@@ -65,7 +69,7 @@
   <!-- Barra de navegación del sitio web -->
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid p-3 mb-2 bg-warning text-dark">
-      <a class="navbar-brand text-white" href="#">Inicio</a>
+      <a class="navbar-brand text-white" href="/">Inicio</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -73,7 +77,7 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active text-white" aria-current="page" href="#">Preguntas Frecuentes</a>
+            <a class="nav-link active text-white" aria-current="page" href="/preguntas">Preguntas Frecuentes</a>
           </li>
 
           <li class="nav-item dropdown">
@@ -83,60 +87,62 @@
             </a>
             <!-- Menú desplegable -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="#">Comestibles</a></li>
-              <li><a class="dropdown-item" href="#">Electrónica</a></li>
-              <li><a class="dropdown-item" href="#">Químicos</a></li>
-              <li><a class="dropdown-item" href="#">Agroindustrial</a></li>
+              <li><a class="dropdown-item" href="/comestibles">Comestibles</a></li>
+              <li><a class="dropdown-item" href="/electronico">Electrónica</a></li>
+              <li><a class="dropdown-item" href="/quimico">Químicos</a></li>
+              <li><a class="dropdown-item" href="/agroindustrial">Agroindustrial</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Proveedores</a>
-        </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#">Información</a>
+            <a class="nav-link text-white" href="/proveedores">Proveedores</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Transparencia</a>
+            <a class="nav-link text-white" href="/informacion">Información</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Contacto</a>
+            <a class="nav-link text-white" href="/transparencia">Transparencia</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/contacto">Contacto</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
+  <br>
+  <header>
+    <!-- Título de página de importación -->
+    <h1 class="p-3 mb-2 bg-dark text-white">Importación de Productos Comestibles</h1>
+  </header>
+  <br>
 
   <article class="seccion1">
     <!-- Formulario -->
-    <form class="formulario" action="/enviar" method="post">
+    <form class="formulario" action="/ingresar_comestibles" method="post">
       <div class="tareas p-3 mb-2 bg-warning text-dark">
         <div class="campos">
           <!-- etiqueta de formulario -->
-          <label for="tarea">Descripción</label>
+          <label for="tarea">Producto</label>
           <!-- Input donde ingresaremos datos -->
-          <input class="entrada" id="tarea" name="tarea" type="text">
+          <input class="entrada" id="producto" name="producto_cm" type="text">
 
           <!-- etiqueta de formulario -->
-          <label for="correo">Correo Electrónico</label>
+          <label for="correo">Precio</label>
           <!-- Input donde ingresaremos datos -->
-          <input class="entrada" id="correo" name="correo" type="text">
+          <input class="entrada" id="precio" name="precio_cm" type="text">
 
           <!-- etiqueta de formulario -->
-          <label for="prioridad">Nivel de Prioridad</label>
+          <label for="prioridad">Cantidad</label>
           <!-- Campo que nos permitirá escoger un dato específicos -->
-          <select class="entrada" id="prioridad" name="prioridad">
-            <option value="Baja">Baja</option>
-            <option value="Media">Media</option>
-            <option value="Alta">Alta</option>
-          </select>
+          <input class="entrada" id="cantidad" name="cantidad_cm" type="number">
 
           <br>
 
           <!-- Botón para agregar la tarea pendiente -->
           <div class="d-grid gap-2 col-6 mx-auto ">
-            <button class="btn btn-primary p-3 mb-2 bg-white text-dark" type="submit">Agregar tarea
-              Pendiente</button>
+            <button class="btn btn-primary p-3 mb-2 bg-white text-dark" type="submit">Agregar producto a la lista de
+              importación</button>
           </div>
 
         </div>
@@ -151,18 +157,18 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Tarea</th>
-          <th scope="col">Dirección de Correo Electrónico</th>
-          <th scope="col">Prioridad</th>
+          <th scope="col">Producto</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Cantidad</th>
         </tr>
       </thead>
       <tbody>
         <!-- Llamado al arreglo donde se guardaron los datos que ingresamos en el formulario -->
-        {% for tarea in tareasLista %}
+        {% for comestibles in lcomestibles %}
         <tr>
-          <td>{{tarea.tarea}}</td>
-          <td>{{tarea.correo}}</td>
-          <td>{{tarea.prioridad}}</td>
+          <td>{{comestibles.producto_cm}}</td>
+          <td>{{comestibles.precio_cm}}</td>
+          <td>{{comestibles.cantidad_cm}}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -170,12 +176,14 @@
   </article>
 
   <!-- Formulario que llamara a la ruta '\borrar' -->
-  <form action="/borrar" method="post" class="card">
+  <form action="/borrar_comestibles" method="post" class="card">
     <div class="d-grid gap-2 col-6 mx-auto ">
       <!-- Botón que borrará todas las tareas pendientes de nuestra tabla -->
-      <button class="btn btn-primary p-3 mb-2 bg-warning text-dark" type="submit">Borrar Tareas</button>
+      <button class="btn btn-primary p-3 mb-2 bg-warning text-dark" type="submit">Borrar Productos</button>
     </div>
   </form>
+
+  <br>
 
   <!-- Pie de página -->
   <footer class="text-center text-lg-start bg-light text-muted">
